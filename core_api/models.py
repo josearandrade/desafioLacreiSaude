@@ -2,7 +2,7 @@ from django.db import models
 
 class HealthProfessional(models.Model):
     social_name = models.CharField(max_length=255)
-    profession = models.CharField(unique=True)
+    profession = models.CharField(unique=False)
     # Address information
     address_street = models.CharField(max_length=100, blank=True, null=True)
     address_number = models.CharField(max_length=10, blank=True, null=True)
