@@ -4,8 +4,21 @@ from rest_framework import serializers
 from .models import HealthProfessional, MedicalAppointment
 from django.utils import timezone
 import re
+import bleach
+
+def sanitize_html_input(value):
+    return bleach.clean(str(value), tags=[], attributes={}, strip=True)
 
 class HealthProfessionalSerializer(serializers.ModelSerializer):
+
+    social_name = serializers.CharField(validators=[sanitize_html_input])
+    profession = serializers.CharField(validators=[sanitize_html_input])
+    address_street = serializers.CharField(required=False, allow_blank=True, validators=[sanitize_html_input])
+    address_number = serializers.CharField(required=False, allow_blank=True, validators=[sanitize_html_input])
+    address_city = serializers.CharField(required=False, allow_blank=True, validators=[sanitize_html_input])
+    address_state = serializers.CharField(required=False, allow_blank=True, validators=[sanitize_html_input])
+    address_zip = serializers.CharField(required=False, allow_blank=True, validators=[sanitize_html_input])
+
     class Meta:
         model = HealthProfessional
         fields = [
